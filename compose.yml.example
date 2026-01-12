@@ -31,6 +31,12 @@ services:
       - mongo
       - api
     restart: unless-stopped
+    logging:
+      driver: loki
+      options:
+        loki-url: "${LOKI_URL}"
+        loki-retries: "3"
+        loki-external-labels: "service=bot,environment=production"
 
   api:
     build:
@@ -51,6 +57,12 @@ services:
       - mongo
       - redis
     restart: unless-stopped
+    logging:
+      driver: loki
+      options:
+        loki-url: "${LOKI_URL}"
+        loki-retries: "3"
+        loki-external-labels: "service=api,environment=production"
 
   mongo:
     image: mongo
@@ -62,7 +74,19 @@ services:
     volumes:
       - ./db:/data/db:rw
     restart: unless-stopped
+    logging:
+      driver: loki
+      options:
+        loki-url: "${LOKI_URL}"
+        loki-retries: "3"
+        loki-external-labels: "service=mongo,environment=production"
 
   redis:
     image: valkey/valkey
     restart: always
+    logging:
+      driver: loki
+      options:
+        loki-url: "${LOKI_URL}"
+        loki-retries: "3"
+        loki-external-labels: "service=redis,environment=production"
