@@ -11,6 +11,7 @@ COPY packages/lib ./packages/lib
 WORKDIR /build/packages/lib
 RUN bun run build
 
+WORKDIR /build
 COPY packages/bot ./packages/bot
 WORKDIR /build/packages/bot
 RUN bun run build
